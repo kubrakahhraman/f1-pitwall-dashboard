@@ -19,3 +19,9 @@ print("\n--- SÜRÜCÜ LİSTESİ ---")
 for driver in response.json():
       # print(f"{driver["driver_number"]:3} | {driver["full_name"]:25} | {driver["team_name"]}")
       print(f"#{driver['driver_number']} {driver['full_name']} - {driver['team_name']}")
+
+# Veriyi JSON dosyasına kaydet
+with open("ingestion/drivers.json", "w") as f:
+      json.dump(response.json(), f, indent=2)
+
+print("\nVeri ingestion/drivers.json dosyasına kaydedildi!")
