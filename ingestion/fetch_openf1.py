@@ -17,4 +17,5 @@ print("Durum kodu:", response.status_code)
 # Veriyi düzenli göster
 print("\n--- SÜRÜCÜ LİSTESİ ---")
 for driver in response.json():
-      print(f"{driver["driver_number"]:3} | {driver["full_name"]:25} | {driver["team_name"]}")
+      # print(f"{driver["driver_number"]:3} | {driver["full_name"]:25} | {driver["team_name"]}")
+      print(f"#{driver['driver_number']} {driver['full_name']} - {driver['team_name']}")
