@@ -1,27 +1,27 @@
 import requests
 import json
 
-# OpenF1 API'den veri çek
-url = "https://api.openf1.org/v1/drivers?session_key=latest"
+BASE_URL = "https://api.openf1.org/v1"
 
-response = requests.get(url)
+def get_drivers(session_key="latest"):
+      """OpenF1 API'den sürücü verisi çeker"""
+      url = f"{BASE_URL}/drivers?session_key={session_key}"
+      response = requests.get(url)
+      return response.json()
 
-print("Durum kodu:", response.status_code)
-# print("Toplam sürücü sayısı:", len(response.json()))
+def print_drivers(drivers):
+      """Sürücü listesi ekrana yazdırır"""
+      print("\n--- SÜRÜCÜ LİSTESİ ---")
+      for driver in drivers:
+            print(f"#{driver['driver_number']} {driver['full_name']} - {driver['team_name']}")
 
-# for driver in response.json():
-#       print(driver['full_name'], "-", driver["team_name"])
+def save_drivers(drivers, filepath="ingestion/driver.json"):
+      """Sürücü versini JSON dosyasına kaydeder"""
+      with open(filepath, "w") as f:
+            json.dump(drivers, f, indent=2)
+      print(f"\nVeri {filepath} dosyasına kaydedildi!")
 
-# print("İlk sürücü:", response.json()[0])
-
-# Veriyi düzenli göster
-print("\n--- SÜRÜCÜ LİSTESİ ---")
-for driver in response.json():
-      # print(f"{driver["driver_number"]:3} | {driver["full_name"]:25} | {driver["team_name"]}")
-      print(f"#{driver['driver_number']} {driver['full_name']} - {driver['team_name']}")
-
-# Veriyi JSON dosyasına kaydet
-with open("ingestion/drivers.json", "w") as f:
-      json.dump(response.json(), f, indent=2)
-
-print("\nVeri ingestion/drivers.json dosyasına kaydedildi!")
+# Ana program
+drivers = get_drivers()
+print_drivers(drivers)
+save_drivers(drivers)
