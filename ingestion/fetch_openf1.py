@@ -4,16 +4,20 @@ import json
 BASE_URL = "https://api.openf1.org/v1"
 
 def get_drivers(session_key="latest"):
-      """OpenF1 API'den sürücü verisi çeker"""
-      url = f"{BASE_URL}/drivers?session_key={session_key}"
-      response = requests.get(url)
-      return response.json()
-
+      """OpenF1 API'dan sürücü verisi çeker"""
+      try:
+            url = f"{BASE_URL}/drivers?session_key={session_key}"
+            response = requests.get(url)
+            return response.json()
+      except Exception as e:
+            print(f"Hata oluştu: {e}")
+            return []
+      
 def print_drivers(drivers):
       """Sürücü listesi ekrana yazdırır"""
       print("\n--- SÜRÜCÜ LİSTESİ ---")
       for driver in drivers:
-            print(f"#{driver['driver_number']} {driver['full_name']} - {driver['team_name']}")
+            print(f"#{driver['driver_number']:<3} {driver['full_name']:<25} - {driver['team_name']}")
 
 def save_drivers(drivers, filepath="ingestion/driver.json"):
       """Sürücü versini JSON dosyasına kaydeder"""
