@@ -13,5 +13,7 @@ __pycache__/
 # Logs
 *.log
 
-# Data files
-ingestion/*.json
+
+# F1 Telemetry Data
+data/*.csv
+
