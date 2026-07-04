@@ -17,3 +17,5 @@ __pycache__/
 # F1 Telemetry Data
 data/*.csv
 
+# Python Virtual Environment
+venv/
