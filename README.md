@@ -1,1 +1,1 @@
-# F1 Pitwall Platform - Real Time Telemetry Prediction System
+# F1 Pitwall Platform - Real Time Telemetry Prediction
