@@ -19,6 +19,7 @@ __pycache__/
 data/*.csv
 data/cache/
 fastf1_http_cache.sqlite
+data/
 
-# Python Virtual Environment
-venv/
+# Spark Streaming geçici hafıza dosyaları (Saniyede bir yenilenen gereksiz loglar)
+es_checkpoint/
