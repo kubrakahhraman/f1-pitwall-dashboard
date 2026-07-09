@@ -23,3 +23,6 @@ data/
 
 # Spark Streaming geçici hafıza dosyaları (Saniyede bir yenilenen gereksiz loglar)
 es_checkpoint/
+
+# F1 Cache dosyaları
+*.sqlite
