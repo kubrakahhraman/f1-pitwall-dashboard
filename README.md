@@ -195,8 +195,6 @@ Bu yaklaşım sayesinde platform adım adım büyütülebilecek ve her geliştir
 
 # Dashboard
 
-> İlk sürüm tamamlandıktan sonra Kibana ekran görüntüleri ve canlı demo GIF'i eklenecektir.
-
 ![Dashboard](https://s4.ezgif.com/tmp/ezgif-485506664ca79370.gif)
 
 
