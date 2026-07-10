@@ -122,6 +122,13 @@ F1 Pitwall Dashboard - Real Time Telemetry Pipeline/
 
 # Nasıl çalışır
 
+- Sanal Ortamı Hazırlayın:
+   ```bash
+   python3 -m venv venv
+   source venv/bin/activate  # Windows kullanıyorsanız: venv\Scripts\activate
+   pip install -r requirements.txt
+
+
 - İlk olarak verileri indirmek için şu komutu çalıştır:
    ```bash
    python 1_fetch_data.py
