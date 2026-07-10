@@ -67,7 +67,7 @@ def main():
             gear = data_dict.get('nGear', 'N/A')
             logging.info(f"Yayında -> Vites: {gear} | RPM: {rpm} | Hız: {speed} km/h")
 
-            time.sleep(0.01)
+            time.sleep(0.1)
 
     except FileNotFoundError:
         logging.error(f"CSV dosyası bulunamadı! Lütfen kontrol et: {csv_path}")
