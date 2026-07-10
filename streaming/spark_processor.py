@@ -32,7 +32,7 @@ def write_to_elasticsearch(batch_df, batch_id):
         }
         for row in rows
     ]
-    helpers.bulk(es, actions)
+    helpers.bulk(es, actions, request_timeout=120)
     print(f"Batch {batch_id}: {len(rows)} kayıt yazıldı, 0 hata.")
 
 
@@ -53,6 +53,7 @@ def main():
         .option("kafka.bootstrap.servers", "localhost:9092") \
         .option("subscribe", "f1-telemetry") \
         .option("failOnDataLoss", "false") \
+        .option("maxOffsetsPerTrigger", 100) \
         .load()
 
     # Hedef şemamız 

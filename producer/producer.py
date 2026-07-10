@@ -26,10 +26,8 @@ def clean_for_json(d):
 
 def get_producer():
     try:
-        # Docker'da Kafka portuna bağlanıyoruz
         return KafkaProducer(
             bootstrap_servers=['localhost:9092'],
-            # Veriyi Kafka için JSON formatına çeviriyoruz
             value_serializer=lambda x: json.dumps(x).encode('utf-8')
         )
     except Exception as e:
@@ -46,7 +44,6 @@ def main():
     if not producer:
         return
 
-    # Dosyanın doğru yere gitmesini sağlıyoruz
     current_dir = os.path.dirname(os.path.abspath(__file__))
     csv_path = os.path.join(current_dir, '..', 'data', 'verstappen_telemetry.csv')
 
@@ -56,12 +53,12 @@ def main():
 
         logging.info("Veriler Kafka'ya yollanıyor!")
 
-        # CSV'deki her bir satırı tek tek dönüyoruz, sanki o an araçtan geliyormuş gibi
-        for index, row in df.iterrows():
-            # Satırı sözlüğe çeviriyoruz ve numpy tiplerinden temizliyoruz
-            data_dict = clean_for_json(row.to_dict())
+        # NaN değerleri baştan temizliyoruz (tek seferde, döngü dışında -> çok daha hızlı)
+        df_clean = df.astype(object).where(pd.notnull(df), None)
+        records = df_clean.to_dict(orient='records')
 
-            # 'f1-telemetry' isimli konuya veriyi gönderiyoruz, gönderim başarısız olursa haberimiz olsun
+        for data_dict in records:
+            data_dict = clean_for_json(data_dict)
 
             producer.send('f1-telemetry', value=data_dict).add_errback(on_send_error)
 
@@ -70,8 +67,7 @@ def main():
             gear = data_dict.get('nGear', 'N/A')
             logging.info(f"Yayında -> Vites: {gear} | RPM: {rpm} | Hız: {speed} km/h")
 
-            # Gerçek zamanlı akış için sistemi 1 saniye bekletiyorum
-            time.sleep(1)
+            time.sleep(0.1)
 
     except FileNotFoundError:
         logging.error(f"CSV dosyası bulunamadı! Lütfen kontrol et: {csv_path}")
@@ -83,8 +79,6 @@ def main():
         producer.flush()
         producer.close()
         logging.info("Sistem kapatıldı ve güvenle durdu.")
-
-        
 
 
 if __name__ == "__main__":
